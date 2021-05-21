@@ -31,7 +31,10 @@ gallery.insertAdjacentHTML("beforeend", makeGalleryMarkup);
 gallery.addEventListener("click", imageEnlarge);
 
 function imageEnlarge(evt) {
-    console.log(evt.target);
-    
-    if(!)
+  if (!evt.target.classlist.contains("gallery__image")) {
+    evt.preventDefault();
+    return;
+  }
+
+  console.log(evt.target);
 }
