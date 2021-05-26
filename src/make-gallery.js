@@ -2,7 +2,8 @@ import images from "./gallery-items.js";
 
 console.log(images);
 
-const gallery = document.querySelector(".js-gallery");
+const gallery = document.querySelector("ul.js-gallery");
+const bigImg = document.querySelector("img.lightbox__image");
 
 console.log(gallery);
 
@@ -31,10 +32,17 @@ gallery.insertAdjacentHTML("beforeend", makeGalleryMarkup);
 gallery.addEventListener("click", imageEnlarge);
 
 function imageEnlarge(evt) {
-  if (!evt.target.classlist.contains("gallery__image")) {
-    evt.preventDefault();
+  evt.preventDefault();
+
+  const imgClick = evt.target;
+  if (imgClick.nodeName !== "IMG") {
     return;
   }
+  modalOpen(imgClick.dataset.sourse, imgClick.alt);
+}
 
-  console.log(evt.target);
+function modalOpen(source, alt) {
+  bigImg.classlist.add("is-open");
+  bigImg.src = source;
+  bigImg.alt = alt;
 }
