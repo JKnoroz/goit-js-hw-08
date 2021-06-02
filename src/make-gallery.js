@@ -1,11 +1,9 @@
 import images from "./gallery-items.js";
 
-console.log(images);
-
 const gallery = document.querySelector("ul.js-gallery");
 const bigImg = document.querySelector("img.lightbox__image");
 
-console.log(gallery);
+// make gallery
 
 const makeGalleryItemMarkup = (image) => {
   const { description, original, preview } = image;
@@ -29,6 +27,14 @@ const makeGalleryMarkup = images.map(makeGalleryItemMarkup).join("");
 
 gallery.insertAdjacentHTML("beforeend", makeGalleryMarkup);
 
+// open and close modal
+
+const modal = document.querySelector(".js-lightbox");
+const button = document.querySelector(".lightbox__button");
+const openModal = () => modal.classList.add("is-open");
+const closeModal = () => modal.classList.remove("is-open");
+const overlay = document.querySelector(".lightbox__overlay");
+
 gallery.addEventListener("click", imageEnlarge);
 
 function imageEnlarge(evt) {
@@ -38,11 +44,37 @@ function imageEnlarge(evt) {
   if (imgClick.nodeName !== "IMG") {
     return;
   }
-  modalOpen(imgClick.dataset.sourse, imgClick.alt);
+  console.log("Img clicked");
+  openModal();
+  console.log(imgClick.src);
+  bigImg.src = imgClick.dataset.source;
+  bigImg.alt = imgClick.dataset.alt;
 }
 
-function modalOpen(source, alt) {
-  bigImg.classlist.add("is-open");
-  bigImg.src = source;
-  bigImg.alt = alt;
+button.addEventListener("click", imageClose);
+
+function imageClose() {
+  closeModal();
+  bigImg.src = "";
 }
+
+overlay.addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) {
+    imageClose();
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    imageClose();
+  }
+  // if (e.key === "ArrowLeft") {
+  //   imageMove(-1);
+  // }
+  // if (e.key === "ArrowRight") {
+  //   imageMove(+1);
+  // }
+});
+
+// function imageMove(arrow) {
+// }
