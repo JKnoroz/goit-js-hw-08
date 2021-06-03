@@ -49,6 +49,9 @@ function imageEnlarge(evt) {
   console.log(imgClick.src);
   bigImg.src = imgClick.dataset.source;
   bigImg.alt = imgClick.dataset.alt;
+
+  overlay.addEventListener("click", closeModalByClick);
+  document.addEventListener("keydown", closeModalByEsc);
 }
 
 button.addEventListener("click", imageClose);
@@ -56,25 +59,29 @@ button.addEventListener("click", imageClose);
 function imageClose() {
   closeModal();
   bigImg.src = "";
+
+  overlay.removeEventListener("click", closeModalByClick);
+  document.removeEventListener("keydown", closeModalByEsc);
 }
 
-overlay.addEventListener("click", (e) => {
+function closeModalByClick(e) {
   if (e.target === e.currentTarget) {
     imageClose();
   }
-});
+}
 
-document.addEventListener("keydown", (e) => {
+function closeModalByEsc(e) {
   if (e.key === "Escape") {
     imageClose();
   }
-  // if (e.key === "ArrowLeft") {
-  //   imageMove(-1);
-  // }
-  // if (e.key === "ArrowRight") {
-  //   imageMove(+1);
-  // }
-});
+}
+
+// if (e.key === "ArrowLeft") {
+//   imageMove(-1);
+// }
+// if (e.key === "ArrowRight") {
+//   imageMove(+1);
+// }
 
 // function imageMove(arrow) {
 // }
